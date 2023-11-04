@@ -1,0 +1,25 @@
+header {
+    background-color: var(--blue-dark);
+    padding: 2em;
+}
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1512px;
+    margin: 0 auto;
+
+    & a {
+        color: var(--text-light);
+
+    }
+}
+.logo_link {
+    font-family: 'Lobster Two', sans-serif;
+    font-size: 3em;
+    text-decoration: none;
+}
+
+nav>span a {
+    margin-left: 2em;
+}

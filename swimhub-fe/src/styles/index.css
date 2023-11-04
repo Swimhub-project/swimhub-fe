@@ -1,0 +1,66 @@
+:root {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --blue-dark: #0A369D;
+  --text-dark: #00091C;
+  --text-light: #F3F2F2;
+  --orange-dark: #F58551;
+  --orange-light: #F4C095;
+}
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+:focus:not(:focus-visible) {
+  outline: none;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  font-family: 'DM Sans', sans-serif;
+  background-image: url(../assets/bluewaves.svg);
+  background-size: cover;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+menu:not(article menu),
+ol:not(article ol),
+ul:not(article ul) {
+    list-style: none;
+}
+menu,
+ol,
+ul {
+    padding-left: 0;
+}
+article ol,
+article ul {
+    list-style-position: inside;
+}
+label,
+button,
+select,
+summary,
+[type=radio],
+[type=submit],
+[type=checkbox] {
+    cursor: pointer;
+}
+
+main {
+  padding: 0 2em;
+  max-width: 1512px;
+
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+        scroll-behavior: smooth;
+  }
+}

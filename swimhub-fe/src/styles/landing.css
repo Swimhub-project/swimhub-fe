@@ -1,0 +1,21 @@
+.landing_main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: repeat(2, 1fr);
+    justify-items: center;
+
+    & img {
+        grid-area: 1 / 1 / 2 / 3; 
+        max-width: 75%;
+        transform: translateY(-3.5rem);
+    }
+    & span {
+        margin-top: 10em;
+    }
+
+    & p {
+        font-size: clamp(1rem, 2.5vw, 2rem);
+        font-weight: 600;
+        grid-area: 2 / 2 / 3 / 3; 
+        }
+}

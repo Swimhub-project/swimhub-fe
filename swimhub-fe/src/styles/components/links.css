@@ -1,0 +1,17 @@
+
+.solid_link {
+    background-color: var(--orange-dark);
+    padding: .8rem;
+    color: var(--text-light)
+}
+
+.outline_link {
+    border: 2px solid var(--orange-dark);
+    padding: .8rem 2rem;
+}
+.solid_link, .outline_link {
+    border-radius: 100px;
+    text-decoration: none;
+    font-size: 1rem, 2.5vw, 1.2rem;
+    font-weight: 600;
+}
