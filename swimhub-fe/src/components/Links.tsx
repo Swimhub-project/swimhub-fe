@@ -18,3 +18,11 @@ export const OutlineLink = ({ to, children }: { to: string; children: React.Reac
     </Link>
   );
 };
+
+export const NakedLink = ({to, children }: { to: string; children: React.ReactNode }) => {
+  return (
+    <Link className='naked_link' to={to}>
+      {children}
+    </Link>
+  );
+};

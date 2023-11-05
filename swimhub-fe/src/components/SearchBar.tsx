@@ -1,80 +1,73 @@
-import { useState } from 'react';
-import { useDebounce } from '../hooks/useDebounce';
-import styles from '../styles/components/SearchBar.module.css';
+import React, { useState } from 'react';
+import { ResultType } from '../lib/types';
+import '../styles/components/search-bar.css';
 
 interface SearchBarProps {
-  fetchData: (value: string) => Promise<any[]>;
-  setResult: (result: any) => void;
-  suggestionKey: string;
+  posts: ResultType[];
+  onSearch: (filteredPosts: ResultType[]) => void;
 }
+const SearchBar: React.FC<SearchBarProps> = ({ posts, onSearch }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
-const SearchBar: React.FC<SearchBarProps> = ({ fetchData, setResult, suggestionKey }) => {
-  const [value, setValue] = useState(''); 
-  const [suggestions, setSuggestions] = useState<any[]>([]); 
-  const [hideSuggestions, setHideSuggestions] = useState(true);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const query = e.target.value;
+    setSearchQuery(query);
 
-  const findResult = (value: string) => {
-    setResult(
-      suggestions.find((suggestion) => suggestion[suggestionKey] === value)
-    );
-  };
-
-  useDebounce(
-    async () => {
-      try {
-        const suggestions = await fetchData(value);
-
-        setSuggestions(suggestions || []);
-      } catch (error) {
-        console.log(error);
+    const newSuggestions = posts
+      .filter((post) =>
+        post.title.toLowerCase().includes(query.toLowerCase()) ||
+        post.tags.some((tag) => tag.toLowerCase().includes(query.toLowerCase())) ||
+        post.body.toLowerCase().includes(query.toLowerCase())
+      )
+      .map((post) => post.title);
+      setSuggestions(newSuggestions);
+    };
+  
+    const handleSuggestionClick = (suggestion: string) => {
+      setSearchQuery('');
+  
+      const filteredPosts = posts.filter((post) => post.title === suggestion);
+      onSearch(filteredPosts);
+  
+      setSuggestions([]); // Clear suggestions when a suggestion is clicked
+    };
+    const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        if (searchQuery.trim() !== '') {
+          const filteredPosts = posts.filter((post) =>
+            post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
+            post.body.toLowerCase().includes(searchQuery.toLowerCase())
+          );
+          onSearch(filteredPosts);
+        }
+  
+        setSearchQuery('');
+        setSuggestions([]); // Clear suggestions
       }
-    },
-    1000,
-    [value]
-  );
-
-  const handleFocus = () => {
-    setHideSuggestions(false);
-  };
-
-  const handleBlur = () => {
-    setTimeout(() => {
-      setHideSuggestions(true);
-    }, 200);
-  };
-
-  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value);
-  };
-
+    };
   return (
-    <>
-      <div className={styles['container']}>
-        <input
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          type="search"
-          className={styles['textbox']}
-          placeholder="Search data..."
-          value={value}
-          onChange={handleSearchInputChange}
-        />
-        <div
-          className={`${styles.suggestions} ${
-            hideSuggestions && styles.hidden
-          }`}
-        >
+    <div className='search_container'>
+      <input
+        className='searchbox'
+        type="text"
+        placeholder="&#128269; Search"
+        value={searchQuery}
+        onChange={handleInputChange}
+        onKeyDown={handleInputKeyDown}
+
+      />
+      {suggestions.length > 0 && (
+        <ul className='suggestions'>
           {suggestions.map((suggestion) => (
-            <div
-              className={styles.suggestion}
-              onClick={() => findResult(suggestion[suggestionKey])}
-            >
-              {suggestion[suggestionKey]}
-            </div>
+            <li className='suggestion' key={suggestion} onClick={() => handleSuggestionClick(suggestion)}>
+              {suggestion}
+            </li>
           ))}
-        </div>
-      </div>
-    </>
+        </ul>
+      )}
+    </div>
   );
 };
 

@@ -7,11 +7,16 @@
 
 .outline_link {
     border: 2px solid var(--orange-dark);
-    padding: .8rem 2rem;
+    padding: .8rem ;
 }
 .solid_link, .outline_link {
     border-radius: 100px;
     text-decoration: none;
-    font-size: 1rem, 2.5vw, 1.2rem;
+    font-size: clamp(1rem, 1.5vw, 1.2rem);
     font-weight: 600;
+}
+.naked_link {
+    font-size: 1rem;
+    font-weight: 600;
+    color: inherit;
 }

@@ -2,6 +2,7 @@ header {
     background-color: var(--blue-dark);
     padding: 2em;
 }
+
 nav {
     display: flex;
     justify-content: space-between;
@@ -16,10 +17,20 @@ nav {
 }
 .logo_link {
     font-family: 'Lobster Two', sans-serif;
-    font-size: 3em;
+    font-size: clamp(1.25rem, 3.5vw, 4rem);
     text-decoration: none;
 }
 
-nav>span a {
-    margin-left: 2em;
+.link_container {
+    display: flex;
+    flex-wrap: wrap;
+
+    & a {
+        margin-left: 1rem;
+    }
+}
+@media (max-width: 600px) {
+    .link_container {
+        display: none;
+    }
 }
