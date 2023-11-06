@@ -28,8 +28,8 @@ interface FormInputs {
       }
     return (
         <Layout>
-            <main className="login_main">
-                <div className="login_container">
+            <main className="credential_main">
+                <div className="credential_container">
                 <img src={Logo} alt="" />
             <h1>Create a Swimhub Account</h1>
                 <form onSubmit={handleSubmit}>
@@ -71,8 +71,9 @@ interface FormInputs {
                         />
                         <label>
                         <input 
+                            className="checbox"
                             type="checkbox"
-                            name="tos"
+                            name="terms_checkbox"
                             // onChange={}
                             />
                             I agree to the terms and conditions

@@ -4,11 +4,15 @@ import Layout from "../components/Layout";
 import '../styles/home.css'
 import { ResultType } from '../lib/types';
 import SearchBar from '../components/SearchBar';
+import filterPosts from '../utils/filterPosts';
+import FilterPanel from '../components/FilterPanel';
 
 function Home() {
   const [posts, setPosts] = useState<ResultType[]>([]);
   const [searchQuery] = useState<string>('');
   const [filteredPosts, setFilteredPosts] = useState<ResultType[]>([]);
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
+
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -27,28 +31,20 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    // Filter the posts when the searchQuery or posts change
-    const filtered = posts.filter(post => {
-      const title = post.title.toLowerCase();
-      const tags = Array.isArray(post.tags) ? post.tags : [];
-      const body = post.body.toLowerCase();
-      
-      
-      return title.includes(searchQuery.toLowerCase()) ||
-      tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
-      body.includes(searchQuery.toLowerCase());
-});
+    const filtered = filterPosts(posts, searchQuery, selectedFilters);
+    setFilteredPosts(filtered);
+  }, [searchQuery, posts, selectedFilters]);
 
-setFilteredPosts(filtered);
-}, [searchQuery, posts]);
-
-const handleSearch = (filteredPosts: ResultType[]) => {
-  setFilteredPosts(filteredPosts);
-};
+  const handleSearch = (filteredPosts: ResultType[]) => {
+    setFilteredPosts(filteredPosts);
+  };
+  const handleFilterChange = (selectedFilters: string[]) => {
+    setSelectedFilters(selectedFilters);
+  };
   return (
     <Layout>
       <main className="home_main">
-     
+        <FilterPanel posts={posts} onFilterChange={handleFilterChange} />
           <div className='lesson_cards'>
           <SearchBar posts={posts} onSearch={handleSearch} />
           {filteredPosts.map((post) => (

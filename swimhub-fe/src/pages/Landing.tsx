@@ -1,9 +1,10 @@
-import { Outlet, Link } from "react-router-dom";
+import { Outlet} from "react-router-dom";
 import Layout from "../components/Layout";
 import logoLarge from '../assets/swimhubfull.webp'
 import { SolidLink, OutlineLink, NakedLink } from "../components/Links";
 import '../styles/landing.css'
 
+// to-do: conditional redirect to home page if user is logged in
 const Landing = () => {
     return (
         <Layout>

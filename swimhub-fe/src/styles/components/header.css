@@ -9,16 +9,21 @@ nav {
     align-items: center;
     max-width: 1512px;
     margin: 0 auto;
-
-    & a {
-        color: var(--text-light);
-
-    }
 }
 .logo_link {
     font-family: 'Lobster Two', sans-serif;
     font-size: clamp(1.25rem, 3.5vw, 4rem);
     text-decoration: none;
+    color: var(--text-light);
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 3px;
+
+    &:hover {
+        text-decoration-color: var(--orange-dark);
+  
+    }
 }
 
 .link_container {

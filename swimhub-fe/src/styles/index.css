@@ -25,6 +25,8 @@ body {
   background-image: url(../assets/bluewaves.svg);
   background-size: cover;
   background-repeat: no-repeat;
+  transition: 100ms;
+
 }
 .children_wrapper {
    width: 100%;

@@ -3,6 +3,7 @@ import { useState } from "react";
 import '../../styles/components/credentials.css'
 import Logo from '../../assets/swimhubfull.webp'
 import { NakedLink } from "../../components/Links";
+import { Link } from "react-router-dom";
 
 interface FormInputs {
     username: string;
@@ -28,8 +29,8 @@ interface FormInputs {
       }
     return (
         <Layout>
-            <main className="login_main">
-                <div className="login_container">
+            <main className="credential_main">
+                <div className="credential_container">
                 <img src={Logo} alt="" />
             <h1>Log Into Your Account</h1>
                 <form onSubmit={handleSubmit}>
@@ -68,6 +69,7 @@ interface FormInputs {
                             />
                             Keep me logged in
                         </label>
+                        <NakedLink to='/'>Forgot your password?</NakedLink>
                         <input className="submit" type="submit" />
                 </form>
                 </div>
