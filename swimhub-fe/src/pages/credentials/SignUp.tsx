@@ -28,18 +28,18 @@ interface FormInputs {
       }
     return (
         <Layout>
-            <main className="credential_main">
-                <div className="credential_container">
+            <main className="credential-main">
+                <div className="credential-container">
                 <img src={Logo} alt="" />
             <h1>Create a Swimhub Account</h1>
                 <form onSubmit={handleSubmit}>
                         <input 
                             type="text" 
-                            name="username" 
-                            placeholder="create user name"
+                            name="fullname" 
+                            placeholder="your full name"
                             value={inputs.username || ""} 
                             onChange={handleChange}
-                            aria-label="enter user name"
+                            aria-label="enter full name"
                             required
                         />
                         <input 
@@ -73,7 +73,7 @@ interface FormInputs {
                         <input 
                             className="checbox"
                             type="checkbox"
-                            name="terms_checkbox"
+                            name="terms-checkbox"
                             // onChange={}
                             />
                             I agree to the terms and conditions

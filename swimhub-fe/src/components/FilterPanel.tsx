@@ -1,4 +1,4 @@
-import React from 'react';
+import {useState} from 'react';
 import { ResultType } from '../lib/types';
 
 interface FilterPanelProps {
@@ -7,42 +7,21 @@ interface FilterPanelProps {
 }
 
 const FilterPanel: React.FC<FilterPanelProps> = ({ posts, onFilterChange }) => {
-  const tagsSet = new Set<string>();
-  const userIDsSet = new Set<number>();
+  const uniqueTags = [...new Set(posts.flatMap(post => post.tags))];
+  const uniqueUserIDs = [...new Set(posts.map(post => post.userId.toString()))];
+  const [selectedFilters, setSelectedFilters] = useState<string[]>([]); 
 
-  posts.forEach((post) => {
-    post.tags.forEach((tag) => {
-      tagsSet.add(tag);
-    });
-    userIDsSet.add(post.userId);
-  });
-
-  const uniqueTags = Array.from(tagsSet);
-  const uniqueUserIDs = Array.from(userIDsSet);
 
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFilters: string[] = [];
-
-    if (e.target.name === 'tags') {
-      uniqueTags.forEach((tag) => {
-        if (e.target.checked && e.target.value === tag) {
-          selectedFilters.push(tag);
-        }
-      });
-    } else if (e.target.name === 'userIDs') {
-      uniqueUserIDs.forEach((userID) => {
-        if (e.target.checked && e.target.value === userID.toString()) {
-          selectedFilters.push(userID.toString());
-        }
-      });
-    }
-
-    onFilterChange(selectedFilters);
+    const newFilters = e.target.checked
+      ? [...selectedFilters, e.target.value]
+      : selectedFilters.filter(filter => filter !== e.target.value);
+    setSelectedFilters(newFilters);
+    onFilterChange(newFilters);
   };
 
   return (
-    <div>
-    <div className="filter_panel">
+    <div className="filter-panel">
         <span>
       <h3>Tags</h3>
       <hr />
@@ -81,7 +60,6 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ posts, onFilterChange }) => {
           </li>
         ))}
       </ul>
-    </div>
     </div>
   );
 };

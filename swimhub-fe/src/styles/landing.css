@@ -1,4 +1,4 @@
-.landing_main {
+.landing-main {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,25 +14,25 @@
         }
 }
 
-.landing_content {
+.landing-content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
     justify-items: center;
     align-items: center;
 }
-.landing_links {
+.landing-links {
     display: flex;
     flex-direction: column;
     gap: 1em;
    
 }
 @media (max-width: 600px) {
-    .landing_links {
+    .landing-links {
         width: 95%;
 
     }
 }
-.landing_login {
+.landing-login {
     color: inherit;
     font-size: clamp(1rem, 2.5vw, 1.3rem);
 }

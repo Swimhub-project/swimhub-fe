@@ -3,7 +3,6 @@ import { useState } from "react";
 import '../../styles/components/credentials.css'
 import Logo from '../../assets/swimhubfull.webp'
 import { NakedLink } from "../../components/Links";
-import { Link } from "react-router-dom";
 
 interface FormInputs {
     username: string;
@@ -29,20 +28,11 @@ interface FormInputs {
       }
     return (
         <Layout>
-            <main className="credential_main">
-                <div className="credential_container">
+            <main className="credential-main">
+                <div className="credential-container">
                 <img src={Logo} alt="" />
             <h1>Log Into Your Account</h1>
                 <form onSubmit={handleSubmit}>
-                        <input 
-                            type="text" 
-                            name="username" 
-                            placeholder="enter user name"
-                            value={inputs.username || ""} 
-                            onChange={handleChange}
-                            aria-label="enter user name"
-                            required
-                        />
                         <input 
                             type="email" 
                             name="email" 

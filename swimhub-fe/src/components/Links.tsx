@@ -5,7 +5,7 @@ import '../styles/components/links.css'
 
 export const SolidLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
   return (
-    <Link className='solid_link' to={to}>
+    <Link className='solid-link' to={to}>
       {children}
     </Link>
   );
@@ -13,7 +13,7 @@ export const SolidLink = ({ to, children }: { to: string; children: React.ReactN
 
 export const OutlineLink = ({ to, children }: { to: string; children: React.ReactNode }) => {
   return (
-    <Link className='outline_link' to={to}>
+    <Link className='outline-link' to={to}>
       {children}
     </Link>
   );
@@ -21,7 +21,7 @@ export const OutlineLink = ({ to, children }: { to: string; children: React.Reac
 
 export const NakedLink = ({to, children }: { to: string; children: React.ReactNode }) => {
   return (
-    <Link className='naked_link' to={to}>
+    <Link className='naked-link' to={to}>
       {children}
     </Link>
   );

@@ -8,10 +8,10 @@ import '../styles/landing.css'
 const Landing = () => {
     return (
         <Layout>
-            <main className="landing_main">
-                <img className="landing_logo" src={logoLarge} alt="swimhub logo" />
-                    <div className="landing_content">
-                        <span className="landing_links">
+            <main className="landing-main">
+                <img className="landing-logo" src={logoLarge} alt="swimhub logo" />
+                    <div className="landing-content">
+                        <span className="landing-links">
                             <SolidLink to="/signup" >Create an account &#10140;</SolidLink>
                             <OutlineLink to="/home" >Browse as a guest</OutlineLink>
                         </span>

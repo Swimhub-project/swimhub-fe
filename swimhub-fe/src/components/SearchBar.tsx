@@ -14,6 +14,14 @@ const SearchBar: React.FC<SearchBarProps> = ({ posts, onSearch }) => {
     const query = e.target.value;
     setSearchQuery(query);
 
+    // Clear the filter and render all posts if the search input is empty
+    if (query.trim() === '') {
+      setSearchQuery('');
+      onSearch(posts);
+      setSuggestions([]);
+      return;
+    }
+    
     const newSuggestions = posts
       .filter((post) =>
         post.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -21,32 +29,44 @@ const SearchBar: React.FC<SearchBarProps> = ({ posts, onSearch }) => {
         post.body.toLowerCase().includes(query.toLowerCase())
       )
       .map((post) => post.title);
-      setSuggestions(newSuggestions);
-    };
+    setSuggestions(newSuggestions);
+  };
+
+  const handleSuggestionClick = (suggestion: string) => {
+    setSearchQuery(suggestion); // Set the search input to the selected suggestion
+
+    const filteredPosts = posts.filter((post) => post.title === suggestion);
+    onSearch(filteredPosts);
+
+    setSuggestions([]); // Clear suggestions when a suggestion is clicked
+  };
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      if (searchQuery.trim() !== '') {
+        const filteredPosts = posts.filter((post) =>
+          post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          post.body.toLowerCase().includes(searchQuery.toLowerCase())
+        );
   
-    const handleSuggestionClick = (suggestion: string) => {
-      setSearchQuery('');
-  
-      const filteredPosts = posts.filter((post) => post.title === suggestion);
-      onSearch(filteredPosts);
-  
-      setSuggestions([]); // Clear suggestions when a suggestion is clicked
-    };
-    const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Enter') {
-        if (searchQuery.trim() !== '') {
-          const filteredPosts = posts.filter((post) =>
-            post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
-            post.body.toLowerCase().includes(searchQuery.toLowerCase())
-          );
+        if (filteredPosts.length > 0) {
+          // Update the filtered posts only if there are valid search results
           onSearch(filteredPosts);
         }
-  
-        setSearchQuery('');
-        setSuggestions([]); // Clear suggestions
+      } else {
+        onSearch(posts);
       }
-    };
+  
+      setSuggestions([]); // Clear suggestions
+    }
+  };
+  
+  const handleClearClick = () => {
+    setSearchQuery(''); // Clear the input field
+    onSearch(posts); // Clear the filter and render all posts
+    setSuggestions([]); // Clear suggestions
+  };
   return (
     <div className='search_container'>
       <input
@@ -56,8 +76,12 @@ const SearchBar: React.FC<SearchBarProps> = ({ posts, onSearch }) => {
         value={searchQuery}
         onChange={handleInputChange}
         onKeyDown={handleInputKeyDown}
-
       />
+      {searchQuery && (
+        <button className='clear-button' onClick={() => handleClearClick()}>
+          X
+        </button>
+      )}
       {suggestions.length > 0 && (
         <ul className='suggestions'>
           {suggestions.map((suggestion) => (

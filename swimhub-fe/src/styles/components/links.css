@@ -1,19 +1,19 @@
 a {
     transition: 100ms;
 }
-.solid_link {
+.solid-link {
     background-color: var(--orange-dark);
     padding: .8rem;
     color: var(--text-dark);
     border: 2px solid var(--orange-dark);
 }
 
-.outline_link {
+.outline-link {
     border: 2px solid var(--orange-dark);
     padding: .8rem ;
     color: var(--text-light);
 }
-.solid_link, .outline_link {
+.solid-link, .outline-link {
     border-radius: 100px;
     text-decoration: none;
     font-size: clamp(1rem, 1.5vw, 1.2rem);
@@ -24,7 +24,7 @@ a {
         outline-offset: 3px;
     }
 }
-.naked_link {
+.naked-link {
     font-size: 1rem;
     font-weight: 600;
     color: inherit;
