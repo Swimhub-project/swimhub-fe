@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import { ResultType } from '../lib/types';
+import '../styles/components/filter-panel.css'
 
 interface FilterPanelProps {
   posts: ResultType[];

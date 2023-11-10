@@ -1,0 +1,45 @@
+.lesson-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    max-width: 700px;
+    padding: 1em;
+    margin: 2em 0;
+    background-color: var(--text-light);
+    border-radius: 10px;
+
+    & h2 {
+        text-align: center;
+    }
+
+    & p, h2 {
+        margin: 0;
+    }
+
+    @media (max-width: 600px) {
+        width: 80%;
+    }
+}
+
+
+.lesson-steps {
+    display: flex;
+    overflow-x: auto;
+    height: fit-content;
+    white-space: nowrap;
+    gap: .5em;
+    }
+.step-card {
+    display: flex;
+    flex-direction: column;
+    width: 15em;
+}
+
+.horizontal {
+    display: flex;
+    justify-content: space-between;
+
+    & p {
+        font-weight: bold;
+    }
+}

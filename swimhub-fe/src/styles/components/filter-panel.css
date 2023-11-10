@@ -1,0 +1,38 @@
+.filter-panel {
+    width: 15.5em;
+    margin-top: 2em;
+    padding: 1em;
+    border-radius: 10px;
+    background-color: var(--text-light);
+
+
+    & span {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        & h3 {
+            margin: 0;
+        }
+
+        & hr {
+            width: 100%;
+            margin-left: 1em;  
+            border:  1px solid var(--orange-dark);          
+        }
+  
+    }
+
+    & li {
+        margin-left: 1em;
+
+    }
+    
+& label {
+    display: flex;
+    justify-content: space-between;
+}
+}
+.filter-icon {
+    padding: .3rem;
+}
