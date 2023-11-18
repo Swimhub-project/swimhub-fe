@@ -1,11 +1,9 @@
-// utils/api.js
 import axios from 'axios';
-import { ResultType } from '../lib/types';
+import { EntryType } from '../lib/types';
 
-// update with swimhub API
-const API_BASE_URL = 'https://dummyjson.com'; 
+const API_BASE_URL = 'https://swimhub-production.up.railway.app'; 
 interface ApiResponse {
-  posts: ResultType[];
+  entries: EntryType[];
 }
 
 export const fetchAPI = async (endpoint: string = ''): Promise<ApiResponse> => {

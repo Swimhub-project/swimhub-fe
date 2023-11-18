@@ -1,22 +1,24 @@
 import React from 'react';
-import { ResultType } from '../lib/types';
+import { EntryType } from '../lib/types';
 import '../styles/components/lesson-cards.css'
 
 interface LessonCardsProps {
-    posts: ResultType[];
-    filteredPosts: ResultType[];
+    entries: EntryType[];
+    filteredEntries: EntryType[];
   }
 
-  const LessonCards: React.FC<LessonCardsProps> = ({ filteredPosts }) => {
+  const LessonCards: React.FC<LessonCardsProps> = ({ filteredEntries }) => {
+      console.log('Entries received in LessonCard:', filteredEntries);
+
     return (
       <div className='lesson-cards'>
-        {filteredPosts.map((post) => (
-          <div className="lesson-card" key={post.title}>
-                <h2 className='lesson-title'>{post.title}</h2>
+        {filteredEntries.map((entry) => (
+          <div className="lesson-card" key={entry.title}>
+                <h2 className='lesson-title'>{entry.title}</h2>
 
                 {/* placeholder image */}
                     <img className='placeholder-main' src="https://source.unsplash.com/E9PJO_vL3E8" alt="person swimming" />
-              <p className='lesson-body'>{post.body}</p>
+              <p className='lesson-body'>{entry.body}</p>
               
             {/* demonstrating layout: will be replaced by users' content */}
           <div className='lesson-steps'>
@@ -46,8 +48,8 @@ interface LessonCardsProps {
             </figure>
           </div>
           <div className='horizontal'>
-            <p className='lesson-id'>User ID: {post.userId}</p>
-            <p className='lesson-tags'>Tags: {post.tags.join(', ')}</p>
+            <p className='lesson-id'>User ID: {entry.user_id}</p>
+            <p className='stroke-type'>Stroke: {entry.stroke}</p>
           </div>
           </div>
         ))}

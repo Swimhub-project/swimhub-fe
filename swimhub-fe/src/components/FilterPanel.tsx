@@ -1,15 +1,68 @@
 import {useState} from 'react';
-import { ResultType } from '../lib/types';
+import { EntryType } from '../lib/types';
 import '../styles/components/filter-panel.css'
 
 interface FilterPanelProps {
-  posts: ResultType[];
+  entries: EntryType[];
   onFilterChange: (selectedFilters: string[]) => void;
 }
+const extractUniqueEntryTypes = (entries: EntryType[]): string[] => {
+  const uniqueTypes = entries.reduce((types: string[], entry) => {
+    if (!types.includes(entry.type)) {
+      types.push(entry.type);
+    }
+    return types;
+  }, []);
+  return uniqueTypes;
+};
 
-const FilterPanel: React.FC<FilterPanelProps> = ({ posts, onFilterChange }) => {
-  const uniqueTags = [...new Set(posts.flatMap(post => post.tags))];
-  const uniqueUserIDs = [...new Set(posts.map(post => post.userId.toString()))];
+const extractUniqueEntryStrokes = (entries: EntryType[]): string[] => {
+  const uniqueStrokes = entries.reduce((strokes: string[], entry) => {
+    if (!strokes.includes(entry.stroke)) {
+      strokes.push(entry.stroke);
+    }
+    return strokes;
+  }, []);
+  return uniqueStrokes;
+};
+
+const extractUniqueEntryStages = (entries: EntryType[]): string[] => {
+  const allStages: string[] = entries.reduce((stages: string[], entry) => {
+    const entryStages = [...entry.stage];
+    stages.push(...entryStages);
+    return stages;
+  }, []);
+
+  const uniqueStages = Array.from(new Set(allStages));
+
+  // Sorting function: sort numerical first, then alphanumeric
+  const sortedStages = uniqueStages.sort((a, b) => {
+    const aNum = parseInt(a.match(/\d+/)?.[0] || ''); // Extract number from string a
+    const bNum = parseInt(b.match(/\d+/)?.[0] || ''); // Extract number from string b
+
+    // If both have a number, sort by number; otherwise, sort by alphanumeric
+    if (!isNaN(aNum) && !isNaN(bNum)) {
+      return aNum - bNum; // Numerical sort
+    } else if (!isNaN(aNum)) {
+      return -1; // a has a number, so it comes first
+    } else if (!isNaN(bNum)) {
+      return 1; // b has a number, so it comes first
+    } else {
+      return a.localeCompare(b); // Alphanumeric sort
+    }
+  });
+
+  return sortedStages;
+};
+
+const FilterPanel: React.FC<FilterPanelProps> = ({ entries, onFilterChange }) => {
+  // console.log('Entries received in FilterPanel:', entries);
+
+  const uniqueEntryTypes = extractUniqueEntryTypes(entries);
+  const uniqueEntryStrokes = extractUniqueEntryStrokes(entries);
+  const uniqueEntryStages = extractUniqueEntryStages(entries);
+
+  
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]); 
 
 
@@ -24,18 +77,18 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ posts, onFilterChange }) => {
   return (
     <div className="filter-panel">
         <span>
-      <h3>Tags</h3>
+      <h3>Types</h3>
       <hr />
       </span>
       <ul>
-        {uniqueTags.map((tag) => (
-          <li key={tag}>
+        {uniqueEntryTypes.map((type) => (
+          <li key={type}>
             <label>
-            {tag}
+            {type.replace(/_/g, ' ')}
               <input
                 type="checkbox"
-                name="tags"
-                value={tag}
+                name="type"
+                value={type}
                 onChange={handleFilterChange}
               />
             </label>
@@ -43,18 +96,37 @@ const FilterPanel: React.FC<FilterPanelProps> = ({ posts, onFilterChange }) => {
         ))}
       </ul>
     <span>
-      <h3>UserID</h3>
+      <h3>Stroke</h3>
       <hr />
       </span>
       <ul>
-        {uniqueUserIDs.map((userID) => (
-          <li key={userID}>
+        {uniqueEntryStrokes.map((stroke) => (
+          <li key={stroke}>
             <label>
-            {userID}
+            {stroke}
               <input
                 type="checkbox"
-                name="userIDs"
-                value={userID.toString()}
+                name="strokes"
+                value={stroke}
+                onChange={handleFilterChange}
+              />
+            </label>
+          </li>
+        ))}
+      </ul>
+      <span>
+      <h3>Stage</h3>
+      <hr />
+      </span>
+      <ul>
+        {uniqueEntryStages.map((stage) => (
+          <li key={stage}>
+            <label>
+            {stage.replace(/_/g, ' ')}
+              <input
+                type="checkbox"
+                name="stages"
+                value={stage}
                 onChange={handleFilterChange}
               />
             </label>
