@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import Layout from "../components/Layout";
 import '../styles/home.css'
-import { ResultType } from '../lib/types';
+import { EntryType } from '../lib/types';
 import { fetchAPI } from '../utils/fetchAPI';
 import SearchBar from '../components/SearchBar';
-import filterPosts from '../utils/filterPosts';
+import filterEntries from '../utils/filterEntries';
 import FilterPanel from '../components/FilterPanel';
 import LessonCards from '../components/LessonCards';
 import Dropdown from '../components/Dropdown';
@@ -13,15 +13,15 @@ import PlusIcon from '../assets/plus.svg'
 
 
 function Home() {
-  const [posts, setPosts] = useState<ResultType[]>([]);
-  const [filteredPosts, setFilteredPosts] = useState<ResultType[]>([]);
+  const [entries, setEntries] = useState<EntryType[]>([]);
+  const [filteredEntries, setFilteredEntries] = useState<EntryType[]>([]);
   const [selectedFilters, setSelectedFilters] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const fetchedPosts = await fetchAPI('posts'); 
-        setPosts(fetchedPosts.posts);
+        const fetchedEntries = await fetchAPI('entry'); 
+        setEntries(fetchedEntries.entries);
       } catch (error) {
       }
     };
@@ -30,9 +30,9 @@ function Home() {
   }, []);
 
   useEffect(() => {
-    const filtered = filterPosts(posts, '', selectedFilters); 
-    setFilteredPosts(filtered);
-  }, [posts, selectedFilters]);
+    const filtered = filterEntries(entries, '', selectedFilters); 
+    setFilteredEntries(filtered);
+  }, [entries, selectedFilters]);
 
   return (
     <Layout>
@@ -44,13 +44,13 @@ function Home() {
           <p>Filter Categories</p>
           </span>
           <Dropdown.Content>
-        <FilterPanel posts={posts} onFilterChange={setSelectedFilters} />
+        <FilterPanel entries={entries} onFilterChange={setSelectedFilters} />
         </Dropdown.Content>
         </Dropdown>
         {/* exercise cards */}
           <div className='exercise-cards'>
-          <SearchBar posts={posts} onSearch={setFilteredPosts} />
-          <LessonCards filteredPosts={filteredPosts} posts={[]} />
+          <SearchBar entries={entries} onSearch={setFilteredEntries} />
+          <LessonCards filteredEntries={filteredEntries} entries={[]} />
           </div>
           {/* Simulate add button for layout  */}
           <div className='add-wrapper'>

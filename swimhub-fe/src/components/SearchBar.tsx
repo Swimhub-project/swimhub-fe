@@ -1,61 +1,73 @@
 import React, { useState } from 'react';
-import { ResultType } from '../lib/types';
+import { EntryType } from '../lib/types';
 import '../styles/components/search-bar.css';
 
 interface SearchBarProps {
-  posts: ResultType[];
-  onSearch: (filteredPosts: ResultType[]) => void;
+  entries: EntryType[];
+  onSearch: (filteredEntries: EntryType[]) => void;
 }
-const SearchBar: React.FC<SearchBarProps> = ({ posts, onSearch }) => {
+const SearchBar: React.FC<SearchBarProps> = ({ entries, onSearch }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const query = e.target.value;
+    let query = e.target.value;
     setSearchQuery(query);
 
-    // Clear the filter and render all posts if the search input is empty
+    query = query.replace(/\s/g, '%20');
+
+    // Clear the filter and render all entries if the search input is empty
     if (query.trim() === '') {
       setSearchQuery('');
-      onSearch(posts);
+      onSearch(entries);
       setSuggestions([]);
       return;
     }
-    
-    const newSuggestions = posts
-      .filter((post) =>
-        post.title.toLowerCase().includes(query.toLowerCase()) ||
-        post.tags.some((tag) => tag.toLowerCase().includes(query.toLowerCase())) ||
-        post.body.toLowerCase().includes(query.toLowerCase())
-      )
-      .map((post) => post.title);
-    setSuggestions(newSuggestions);
-  };
+    const searchTerms = query.toLowerCase().split('%20');
+
+    const newSuggestions = entries
+    .filter((post) => {
+      // Check if any of the search terms match any of the fields
+      return searchTerms.some(term =>
+        post.title.toLowerCase().includes(term) ||
+        post.teaching_points.some((teaching_point) => teaching_point.toLowerCase().includes(term)) ||
+        post.body.toLowerCase().includes(term) || 
+        post.author.toLowerCase().includes(term)
+      );
+    })
+    .map((post) => post.title);
+  setSuggestions(newSuggestions);
+};
 
   const handleSuggestionClick = (suggestion: string) => {
     setSearchQuery(suggestion); // Set the search input to the selected suggestion
 
-    const filteredPosts = posts.filter((post) => post.title === suggestion);
-    onSearch(filteredPosts);
+    const filteredEntries = entries.filter((entry) => entry.title === suggestion);
+    onSearch(filteredEntries);
 
     setSuggestions([]); // Clear suggestions when a suggestion is clicked
   };
 
   const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
+      let query = searchQuery;
+      query = query.replace(/\s/g, '%20');
+
+
       if (searchQuery.trim() !== '') {
-        const filteredPosts = posts.filter((post) =>
-          post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          post.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())) ||
-          post.body.toLowerCase().includes(searchQuery.toLowerCase())
+        const filteredEntries = entries.filter((entry) =>
+          entry.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          entry.teaching_points.some((teaching_point) => teaching_point.toLowerCase().includes(searchQuery.toLowerCase())) ||
+          entry.body.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          entry.author.toLowerCase().includes(searchQuery.toLowerCase())
         );
   
-        if (filteredPosts.length > 0) {
-          // Update the filtered posts only if there are valid search results
-          onSearch(filteredPosts);
+        if (filteredEntries.length > 0) {
+          // Update the filtered entries only if there are valid search results
+          onSearch(filteredEntries);
         }
       } else {
-        onSearch(posts);
+        onSearch(entries);
       }
   
       setSuggestions([]); // Clear suggestions
@@ -64,7 +76,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ posts, onSearch }) => {
   
   const handleClearClick = () => {
     setSearchQuery(''); // Clear the input field
-    onSearch(posts); // Clear the filter and render all posts
+    onSearch(entries); // Clear the filter and render all entries
     setSuggestions([]); // Clear suggestions
   };
   return (
